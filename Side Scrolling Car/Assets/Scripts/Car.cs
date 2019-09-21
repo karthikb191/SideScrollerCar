@@ -8,14 +8,19 @@ public class Car : Singleton<Car> {
     
     private float previousSpeed;
     private GameObject body;
-    Vector3 bodyInitialPosition;
-
+    private Vector3 bodyInitialPosition;
+    private ParticleSystem ps;
+ 
 	// Use this for initialization
 	void Start () {
         Debug.Log("Instance is: " + Instance.gameObject.name);
 
         body = transform.GetChild(0).Find("Body").gameObject;
+        ps = transform.GetComponentInChildren<ParticleSystem>();
+
         bodyInitialPosition = body.transform.position;
+
+        LevelManager.Instance.SpeedChangedEvent += ChangeParticleProperties;
 
         //Set the initial speed for all the components
         LevelManager.Instance.SpeedChangedEvent.Invoke(speed);
@@ -27,6 +32,15 @@ public class Car : Singleton<Car> {
         CheckForSpeedChange();
         BounceTheCar();
 	}
+    void ChangeParticleProperties(float s)
+    {
+        var emission = ps.emission;
+        emission.rate = Mathf.Clamp(s / 2, 0, 15);
+
+        var vel = ps.velocityOverLifetime;
+        vel.x = new ParticleSystem.MinMaxCurve(-s / 2 - 5, -s / 2);
+        vel.y = new ParticleSystem.MinMaxCurve(-s / 4, s / 2 + 1);
+    }
 
     //Check for any changes in the speed. If the speed of the car changes, the event on level manager is triggered
     void CheckForSpeedChange()
