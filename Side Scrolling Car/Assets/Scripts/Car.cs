@@ -71,7 +71,7 @@ public class Car : Singleton<Car> {
         //bodyPerlinNoise = Mathf.Lerp(oldPerlinNoise, bodyPerlinNoise, 0.1f);
         //oldPerlinNoise = bodyPerlinNoise;
 
-        Debug.Log(bodyPerlinNoise);
+        //Debug.Log(bodyPerlinNoise);
         Vector3 oldPosition = body.transform.position;
 
         Vector3 movementDelta = new Vector3(0, bodyPerlinNoise * speed * 1.5f * Time.deltaTime, 0);
