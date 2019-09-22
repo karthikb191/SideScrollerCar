@@ -29,7 +29,8 @@
 			};
 
 			sampler2D _MainTex;
-			float _ScrollSpeed;
+			//float _ScrollSpeed;
+			float _ScrolledUV;
 			float4 _OverlayColor;
 			float _ParallaxMultiplier;
 
@@ -46,7 +47,8 @@
 			//Fragment Shader
 			fixed4 frag(Output o) : COLOR {
 				fixed4 finalColor;
-				o.uv.x = o.uv.x + _ScrollSpeed * _Time.x * _ParallaxMultiplier;
+				//o.uv.x = o.uv.x + _ScrollSpeed * _Time.x * _ParallaxMultiplier;
+				o.uv.x += _ScrolledUV * _ParallaxMultiplier;
 				finalColor = tex2D(_MainTex, o.uv);
 				return finalColor * o.color;
 			}

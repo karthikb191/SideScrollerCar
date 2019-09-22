@@ -5,7 +5,7 @@ using UnityEngine;
 public class Wheel : MonoBehaviour {
 
     public GameObject hingeToFollow;
-
+    public float springConstant;
     Vector3 oldForce;
     Car car;
     private void Start()
@@ -21,9 +21,9 @@ public class Wheel : MonoBehaviour {
     void SpringOnHinge()
     {
         //float distanceSquare = Vector3.Distance(gameObject.transform.position, hingeToFollow.transform.position);
-        Vector3 newForce = (hingeToFollow.transform.position - gameObject.transform.position) * 1500f;
+        Vector3 newForce = (hingeToFollow.transform.position - gameObject.transform.position) * springConstant;
         Vector3 force = Vector3.Lerp(oldForce, newForce, 0.25f);
-        gameObject.transform.position += force * Time.deltaTime * Time.deltaTime; 
+        gameObject.transform.position += force * LevelManager.Instance.deltaTime * LevelManager.Instance.deltaTime; 
     }
 
     void RotateWheel()
@@ -32,7 +32,7 @@ public class Wheel : MonoBehaviour {
         float oldZ = eulerAngles.z;
         gameObject.transform.rotation = Quaternion.Euler(eulerAngles.x, 
                                                             eulerAngles.y, 
-                                                            eulerAngles.z + car.speed * -30 * Time.deltaTime);
+                                                            eulerAngles.z + car.speed * -30 * LevelManager.Instance.deltaTime);
     }
     
 }

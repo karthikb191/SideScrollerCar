@@ -41,6 +41,7 @@ public class LevelManager : Singleton<LevelManager> {
     //Acts as a single point of access to all the updates related to the speed of the car
     public Action<float> SpeedChangedEvent;
 
+    public float deltaTime;
 	// Use this for initialization
 	void Start () {
         //SpeedChangedEvent = new Action<float>();
@@ -49,6 +50,6 @@ public class LevelManager : Singleton<LevelManager> {
 	
 	// Update is called once per frame
 	void Update () {
-		
+        deltaTime = Time.deltaTime > 0.0333f ? 0.0333f : Time.deltaTime;	
 	}
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public struct TouchInfo
+public class TouchInfo
 {
     public int horiontal;
     public int vertical;
@@ -12,7 +12,7 @@ public struct TouchInfo
 
 public class InputManager : Singleton<InputManager> {
 
-    public TouchInfo touchInfo;
+    public TouchInfo touchInfo = new TouchInfo();
 
     bool firstTouchDown = false;
 	// Use this for initialization

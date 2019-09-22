@@ -169,6 +169,7 @@ Transform:
   - {fileID: 985368621}
   - {fileID: 118068495}
   - {fileID: 522825592}
+  - {fileID: 963525606}
   m_Father: {fileID: 324854945}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -260,6 +261,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hingeToFollow: {fileID: 488032195}
+  springConstant: 2000
 --- !u!1 &324854944
 GameObject:
   m_ObjectHideFlags: 0
@@ -269,6 +271,7 @@ GameObject:
   m_Component:
   - component: {fileID: 324854945}
   - component: {fileID: 324854946}
+  - component: {fileID: 324854947}
   m_Layer: 0
   m_Name: Car
   m_TagString: Untagged
@@ -283,11 +286,10 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 324854944}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.03, y: -3.09, z: 0}
+  m_LocalPosition: {x: -6, y: -3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 98779011}
-  - {fileID: 963525606}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -302,7 +304,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d4a871e95c3174c9d978c94af95a22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
+  speed: 15
+--- !u!95 &324854947
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 324854944}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 181b257742e3cec4da80f16706f803d9, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &488032195
 GameObject:
   m_ObjectHideFlags: 0
@@ -498,6 +518,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hingeToFollow: {fileID: 40514957}
+  springConstant: 250
 --- !u!1 &892906743
 GameObject:
   m_ObjectHideFlags: 0
@@ -511,7 +532,7 @@ GameObject:
   - component: {fileID: 892906747}
   m_Layer: 0
   m_Name: Background Trees
-  m_TagString: Untagged
+  m_TagString: bg
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -609,7 +630,7 @@ GameObject:
   - component: {fileID: 960435387}
   m_Layer: 0
   m_Name: Foreground Grass
-  m_TagString: Untagged
+  m_TagString: fg
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -718,11 +739,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 963525605}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.54, y: 0.91, z: 0}
+  m_LocalPosition: {x: -1.9499999, y: 0.9100001, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 324854945}
-  m_RootOrder: 1
+  m_Father: {fileID: 98779011}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!199 &963525607
 ParticleSystemRenderer:
@@ -1679,8 +1700,8 @@ ParticleSystem:
           inWeight: 0.33333334
           outWeight: 0.8624143
         - serializedVersion: 3
-          time: 0.14445552
-          value: 0.50646764
+          time: 0.13674344
+          value: 0.61871254
           inSlope: 0.57193345
           outSlope: 0.57193345
           tangentMode: 0
@@ -1688,7 +1709,7 @@ ParticleSystem:
           inWeight: 0.33333334
           outWeight: 0.33333334
         - serializedVersion: 3
-          time: 0.3692308
+          time: 0.31267554
           value: 1
           inSlope: 1
           outSlope: 1
@@ -1712,8 +1733,8 @@ ParticleSystem:
           inWeight: 0.33333334
           outWeight: 0.33333334
         - serializedVersion: 3
-          time: 0.20763761
-          value: 0.5013247
+          time: 0.18449889
+          value: 0.6033653
           inSlope: 1.3144264
           outSlope: 1.3144264
           tangentMode: 0
@@ -1721,7 +1742,7 @@ ParticleSystem:
           inWeight: 0.33333334
           outWeight: 0.8823384
         - serializedVersion: 3
-          time: 0.338471
+          time: 0.28191572
           value: 1
           inSlope: 0
           outSlope: 0
@@ -2010,7 +2031,7 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.0754717, g: 0.0754717, b: 0.0754717, a: 1}
+        key0: {r: 0.33962262, g: 0.33962262, b: 0.33962262, a: 1}
         key1: {r: 1, g: 1, b: 1, a: 1}
         key2: {r: 1, g: 1, b: 1, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
@@ -2019,15 +2040,15 @@ ParticleSystem:
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
         ctime0: 0
-        ctime1: 65535
-        ctime2: 65535
+        ctime1: 22359
+        ctime2: 22359
         ctime3: 0
         ctime4: 0
         ctime5: 0
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 50886
+        atime1: 20624
         atime2: 65535
         atime3: 65535
         atime4: 0
@@ -5424,7 +5445,7 @@ GameObject:
   - component: {fileID: 1423198400}
   m_Layer: 0
   m_Name: RoadQuad
-  m_TagString: Untagged
+  m_TagString: road
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5536,6 +5557,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1c4f3fe8ab426643bb4821caecf48ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deltaTime: 0
 --- !u!4 &1436608318
 Transform:
   m_ObjectHideFlags: 0
@@ -5608,11 +5630,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42800da3c2dd4cd45a14a3cd1789d39c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnvironmentObjects:
-  - {fileID: 1423198396}
-  - {fileID: 960435383}
-  - {fileID: 892906743}
-  - {fileID: 2107931916}
+  Road: {fileID: 1423198396}
   enableScrolling: 1
 --- !u!4 &1515875695
 Transform:
@@ -5714,7 +5732,7 @@ GameObject:
   - component: {fileID: 2107931918}
   m_Layer: 0
   m_Name: Background Clouds
-  m_TagString: Untagged
+  m_TagString: bg
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
