@@ -1,11 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Car : Singleton<Car> {
 
     public float speed = 0;
-    
+    [HideInInspector]
+    public bool controlIssued = false;
+
+    #region private fields
     private float previousSpeed;
     private GameObject body;
     private Vector3 initialCarPosition;
@@ -18,10 +22,13 @@ public class Car : Singleton<Car> {
 
     private Bounds roadBounds;
 
+    private Vector3 rootPositionOfCar;
     private Vector3 bottomLaneInitialPosition = new Vector3(-6, -3, 0);
     private Vector3 topLaneInitialPosition = new Vector3(4.5f, -1, 0);
-	// Use this for initialization
-	void Start () {
+    
+    #endregion
+    // Use this for initialization
+    void Start () {
         Debug.Log("Instance is: " + Instance.gameObject.name);
 
         body = transform.GetChild(0).Find("Body").gameObject;
@@ -30,6 +37,7 @@ public class Car : Singleton<Car> {
         roadBounds = EnvironmentManager.Instance.GetRoadBounds().GetValueOrDefault();
         initialCarPosition = gameObject.transform.position;
         bodyInitialPosition = body.transform.localPosition;
+        rootPositionOfCar = bottomLaneInitialPosition;
         touchInfo = InputManager.Instance.touchInfo;
         animator = GetComponent<Animator>();
 
@@ -42,10 +50,35 @@ public class Car : Singleton<Car> {
 	
 	// Update is called once per frame
 	void Update () {
+        if (!controlIssued)
+            return;
+
         Move();
         CheckForPreviousSpeed();
-        BounceTheCar();
+        //BounceTheCar();
 	}
+    private void LateUpdate()
+    {
+        if (!controlIssued)
+            return;
+        
+        SetRootPosition();
+        BounceTheCar();
+    }
+
+    void SetRootPosition()
+    {
+        if (!controlIssued)
+            return;
+        //Move the car to left or right of screen depending on speed
+        float moveLength = 10.0f;
+        float moveScale = Mathf.Clamp(Mathf.Abs(speed) - 30, 0, 20) / 20;
+
+        //Move the root
+        gameObject.transform.position = rootPositionOfCar + new Vector3(Mathf.Sign(speed) * moveScale * moveLength, 0, 0);
+        
+    }
+
     void ChangeParticleProperties(float s)
     {
         var emission = ps.emission;
@@ -75,14 +108,7 @@ public class Car : Singleton<Car> {
 
             StartCoroutine(Flip(flipped));
         }
-
-        //Move the car to left or right of screen depending on speed
-        float moveLength = 10.0f;
-        float moveScale = Mathf.Clamp(Mathf.Abs(speed) - 30, 0, 20) / 20;
-
-        //Move the root
-        gameObject.transform.position = initialCarPosition + new Vector3(Mathf.Sign(speed) * moveScale * moveLength, 0, 0);
-
+        
         if (touchInfo.touchedObjectTag == null)
         {
             //If the input is released, 
@@ -131,13 +157,10 @@ public class Car : Singleton<Car> {
         yield return new WaitForSeconds(time/2);
 
         if (flip)
-            gameObject.transform.position = topLaneInitialPosition;
+            rootPositionOfCar = topLaneInitialPosition;
         else
-            gameObject.transform.position = bottomLaneInitialPosition;
-
-        //Reset the initial location of the cat to the top lane
-        initialCarPosition = gameObject.transform.position;
-        //bodyInitialPosition = body.transform.localPosition;
+            rootPositionOfCar = bottomLaneInitialPosition;
+        
         yield return new WaitForSeconds(time / 2);
         
     }
@@ -158,8 +181,8 @@ public class Car : Singleton<Car> {
         Vector3 rootForce = (bodyInitialPosition - body.transform.localPosition) * 3000 * LevelManager.Instance.deltaTime * LevelManager.Instance.deltaTime;
 
         //float x = Random.Range(0.0f, 1.0f); float y = Random.Range(0.0f, 1.0f);
-        float x = Mathf.Sin(Time.time) + Random.Range(0.0f, 0.2f);
-        float y = Mathf.Sin(Time.time) + Random.Range(0.0f, 0.3f);
+        float x = Mathf.Sin(Time.time) + UnityEngine.Random.Range(0.0f, 0.2f);
+        float y = Mathf.Sin(Time.time) + UnityEngine.Random.Range(0.0f, 0.3f);
         //float x1 = Random.Range(0.0f, 1.0f) * 2 - 1;
         //x += LevelManager.Instance.deltaTime * 0.1f;    y += LevelManager.Instance.deltaTime * 0.1f;
         //float perlinNoise = Mathf.PerlinNoise(x, y) * 3 - 1;
@@ -187,5 +210,11 @@ public class Car : Singleton<Car> {
 
         oldPerlinNoise = bodyPerlinNoise;
         
+    }
+
+    void IssueControl()
+    {
+        controlIssued = true;
+        EnvironmentManager.Instance.enableScrolling = true;
     }
 }

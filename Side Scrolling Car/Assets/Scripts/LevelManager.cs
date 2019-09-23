@@ -40,7 +40,8 @@ public class LevelManager : Singleton<LevelManager> {
 
     //Acts as a single point of access to all the updates related to the speed of the car
     public Action<float> SpeedChangedEvent;
-
+    
+    [HideInInspector]
     public float deltaTime;
 	// Use this for initialization
 	void Start () {
@@ -52,4 +53,5 @@ public class LevelManager : Singleton<LevelManager> {
 	void Update () {
         deltaTime = Time.deltaTime > 0.0333f ? 0.0333f : Time.deltaTime;	
 	}
+    
 }

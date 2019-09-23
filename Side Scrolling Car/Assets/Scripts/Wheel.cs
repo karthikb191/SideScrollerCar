@@ -13,7 +13,9 @@ public class Wheel : MonoBehaviour {
         car = Car.Instance;
     }
     // Update is called once per frame
-    void Update () {
+    public void LateUpdate() {
+        if (!car.controlIssued)
+            return;
         RotateWheel();
         SpringOnHinge();
 	}
